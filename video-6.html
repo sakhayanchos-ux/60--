@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#631b38">
+<title>Видео встречи одноклассников · 60 лет</title>
+<meta name="description" content="Видео встречи одноклассников. Смотрите всю запись в одном проигрывателе.">
+<style>
+:root{--wine:#671e3a;--gold:#bd914f;--ink:#49323d;--cream:#fff7eb;}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+body{background:radial-gradient(circle at 4% 10%,#f5d6b2,transparent 35%),radial-gradient(circle at 95% 30%,#ecd2d5,transparent 40%),#fdf5e9;color:var(--ink);padding:24px 15px 50px}
+.container{max-width:880px;margin:0 auto}
+h1{font:700 clamp(36px,7vw,60px)/1.14 Georgia,serif;color:var(--wine);text-align:center;margin:12px 0 13px}
+.top{text-align:center;font-weight:750;color:#916235;letter-spacing:.16em;text-transform:uppercase;font-size:13px}
+.subtitle{text-align:center;color:#775c66;line-height:1.55;margin:0 0 27px;font-size:16px}
+.stars{text-align:center;font-size:28px;color:var(--gold);margin:9px 0}
+.card{background:#fffdf9;border:2px solid #e8cfa9;padding:15px;border-radius:27px;box-shadow:0 20px 35px #5f34371a}
+video{width:100%;aspect-ratio:16/9;display:block;background:#1e111a;border-radius:16px;object-fit:contain}
+#status{text-align:center;margin:12px 0 7px;color:#896b68;line-height:1.5;font-size:14px}
+.controls{margin:18px 5px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.controls a{border-radius:100px;background:var(--wine);color:white;padding:13px 22px;font-weight:750;text-decoration:none;font-size:15px}
+.controls a.alt{background:transparent;color:var(--wine);border:1px solid #c8a073}
+.note{max-width:600px;text-align:center;margin:17px auto 0;color:#856c68;font-size:14px;line-height:1.5}
+footer{text-align:center;margin-top:38px;color:#85646c;font-family:Georgia,serif;font-size:20px}
+</style>
+</head>
+<body>
+<main class="container">
+<header>
+<div class="top">60 лет · Встреча одноклассников</div>
+<div class="stars" aria-hidden="true">✦ ♡ ✦</div>
+<h1>Наша встреча</h1>
+<p class="subtitle">Воспоминания, которые хочется пересматривать снова и снова</p>
+</header>
+<section class="card">
+<video id="player" controls playsinline preload="metadata" aria-label="Видео встречи одноклассников">
+<source src="https://github.com/sakhayanchos-ux/60--/releases/download/video-60-let/476608818389940123.mp4" type="video/mp4">
+Ваш браузер не поддерживает воспроизведение видео.
+</video>
+<p id="status" role="status" aria-live="polite">Нажмите ▶, чтобы посмотреть видео.</p>
+</section>
+<nav class="controls" aria-label="Дополнительные действия">
+<a href="https://github.com/sakhayanchos-ux/60--/releases/download/video-60-let/476608818389940123.mp4" target="_blank" rel="noopener">Открыть исходное видео</a>
+<a class="alt" href="music.html">♫ Песни нашей молодости</a>
+</nav>
+<p class="note">Видео хранится в GitHub Releases (516 МБ). При медленном интернете загрузка может занять время. Если видео не воспроизводится, воспользуйтесь кнопкой «Открыть исходное видео»: GitHub может предложить скачать файл.</p>
+<footer>С теплом к школьным друзьям ♡</footer>
+</main>
+<script>
+(function(){
+const player=document.getElementById("player");
+const status=document.getElementById("status");
+player.addEventListener("waiting",()=>status.textContent="Загрузка видео… Подождите немного.");
+player.addEventListener("loadedmetadata",()=>status.textContent="Видео готово к просмотру. Нажмите ▶.");
+player.addEventListener("playing",()=>status.textContent="Приятного просмотра! ♡");
+player.addEventListener("error",()=>status.textContent="Браузер не смог воспроизвести видео с GitHub. Используйте кнопку «Открыть исходное видео».");
+})();
+</script>
+</body>
+</html>
