@@ -1,16 +1,48 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#000000">
-  <title>Видео 6</title>
-  <style>
-    html,body{width:100%;height:100%;margin:0;background:#000;overflow:hidden}
-    video{display:block;width:100vw;height:100vh;height:100dvh;object-fit:contain;background:#000}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Видео №6</title>
+<style>
+html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden}
+video{display:block;background:#000;width:100vw;height:100vh;height:100dvh;object-fit:contain}
+#message{position:fixed;bottom:3rem;left:1rem;right:1rem;text-align:center;color:#fff;
+font:15px/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif;text-shadow:0 1px 8px #000;
+pointer-events:none;display:none}
+</style>
 </head>
 <body>
-  <video controls playsinline preload="metadata" aria-label="Видео 6" src="https://github.com/sakhayanchos-ux/60--/releases/download/video-60-let/476608818389940123.mp4"></video>
+<video id="video" controls playsinline preload="metadata" aria-label="Видео №6"></video>
+<div id="message" role="status" aria-live="polite"></div>
+<script>
+(function(){
+  const video=document.getElementById("video");
+  const message=document.getElementById("message");
+  const source="media6/playlist.m3u8";
+  function report(text){message.textContent=text;message.style.display=text?"block":"none";}
+  video.addEventListener("playing",()=>report(""));
+  video.addEventListener("error",()=>report("Видео временно не удалось загрузить. Попробуйте обновить страницу."));
+  if(video.canPlayType("application/vnd.apple.mpegurl") || video.canPlayType("application/x-mpegURL")){
+    video.src=source;
+  } else {
+    const script=document.createElement("script");
+    script.src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js";
+    script.onload=()=>{
+      if(window.Hls&&Hls.isSupported()){
+        const hls=new Hls({enableWorker:true});
+        hls.loadSource(source);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.ERROR,(event,data)=>{
+          if(data.fatal){report("Не удалось загрузить видео. Обновите страницу.");}
+        });
+      }else{report("Этот браузер не поддерживает видеоплеер. Откройте ссылку в Safari.");}
+    };
+    script.onerror=()=>report("Не удалось загрузить видеоплеер. Проверьте подключение к интернету.");
+    document.head.appendChild(script);
+  }
+})();
+</script>
 </body>
 </html>
