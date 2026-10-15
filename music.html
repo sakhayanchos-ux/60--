@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#681b36">
+  <meta name="description" content="Песни нашей молодости — музыкальный плейлист встречи одноклассников.">
+  <title>Песни нашей молодости • Встреча одноклассников</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --wine:#651b36; --wine-dark:#421023; --rose:#8b3452; --gold:#bf8d40;
+      --cream:#fff9ef; --ink:#3d242c; --soft:#7f6c6b;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0; min-height:100vh; min-height:100svh;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 15% 0%, #f6d9a5 0, transparent 34%),
+        radial-gradient(circle at 100% 30%, #e9b9b6 0, transparent 33%),
+        linear-gradient(155deg,#fff9ec,#f8ece6 70%,#eedbd2);
+    }
+    .wrap { max-width:780px; margin:0 auto; padding:28px 17px 55px; }
+    .header { text-align:center; padding:16px 10px 23px; }
+    .eyebrow { font-size:13px; font-weight:800; color:var(--wine); text-transform:uppercase; letter-spacing:.19em; }
+    .ornament { font-size:25px; color:var(--gold); letter-spacing:.32em; margin:10px 0; }
+    h1 {
+      font:700 clamp(36px,7.5vw,59px)/1.03 Georgia,"Times New Roman",serif;
+      color:var(--wine); margin:8px 0 13px;
+    }
+    .subtitle { font-size:17px; line-height:1.5; color:#76555d; margin:0; }
+    .player {
+      background:linear-gradient(165deg, #7e2847, #641a35 55%, #461326);
+      border:1px solid #e2b46d; border-radius:27px; padding:27px 21px 22px;
+      box-shadow:0 18px 38px #572d3527, inset 0 0 0 4px #ffffff14;
+      color:#fffaf0; text-align:center; position:relative; overflow:hidden;
+    }
+    .player:before {
+      content:""; position:absolute; width:350px; height:350px; right:-190px; top:-210px;
+      border:1px solid #e3bb7660; border-radius:50%; pointer-events:none;
+      box-shadow:0 0 0 18px #e3bb7610,0 0 0 47px #e3bb7610;
+    }
+    .record {
+      width:150px; height:150px; margin:4px auto 17px; border-radius:50%; position:relative;
+      background:repeating-radial-gradient(circle at center,#171319 0,#171319 4px,#2c252b 5px,#1b161a 7px,#211b20 9px);
+      border:7px solid #e6bd77;
+      box-shadow:0 8px 28px #230c1d80, inset 0 0 13px #0009;
+      animation:spin 6s linear infinite; animation-play-state:paused;
+    }
+    .record.playing {animation-play-state:running}
+    .record:before {
+      content:"♪"; display:grid; place-items:center; position:absolute;
+      inset:41px; border-radius:50%;
+      background:linear-gradient(150deg,#f3dba7,#c58d47);
+      border:5px solid #6d2340; color:#6d2340; font:700 29px Georgia,serif;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .now { color:#e6c48c; font-size:12px; font-weight:800; letter-spacing:.17em; text-transform:uppercase; }
+    .song { margin:10px 0 5px; font:700 clamp(23px,5vw,30px)/1.2 Georgia,serif; }
+    .artist { margin:0 0 24px; color:#f1d6d9; font-size:16px; line-height:1.4; }
+    .seekbar {width:100%;height:10px;accent-color:#f1c679;cursor:pointer;touch-action:pan-y;}
+    .times {display:flex;justify-content:space-between;color:#f5e5df;font-size:13px;font-variant-numeric:tabular-nums;margin:5px 2px 17px}
+    .controls {display:flex;justify-content:center;align-items:center;gap:22px}
+    .control {
+      border:1px solid #eac391; background:#fff9f025; color:#fff8e9;
+      width:58px;height:58px;border-radius:50%; font-size:26px;cursor:pointer;
+      display:grid;place-items:center;line-height:1;transition:transform .15s,background .15s;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .control:active {transform:scale(.93)}
+    .control.primary {width:77px;height:77px;background:#f6d18b;color:#5b1933;border-color:#f8dea7;font-size:32px;box-shadow:0 5px 20px #260b2140}
+    .control:focus-visible,.track:focus-visible {outline:3px solid #ffd18a;outline-offset:3px}
+    .hint {font-size:13px;color:#eed4d7;margin:15px 0 0;line-height:1.5;min-height:20px}
+    .list-card {margin-top:23px;background:#fffcf7eF;border-radius:25px;padding:23px 17px 17px;border:1px solid #e8d3b8;box-shadow:0 10px 25px #6c393112;}
+    h2 {margin:0 0 5px;color:var(--wine);font:700 28px Georgia,serif}
+    .list-sub {margin:0 0 17px;color:var(--soft);font-size:15px;line-height:1.4}
+    .tracks {list-style:none; margin:0;padding:0;display:grid;gap:7px}
+    .track {
+      font:inherit; width:100%; border:1px solid transparent; background:transparent; color:var(--ink);
+      border-radius:15px; padding:13px 12px; display:grid;
+      grid-template-columns:35px minmax(0,1fr) 28px; align-items:center; gap:10px;
+      text-align:left; cursor:pointer; min-height:73px;
+    }
+    .track:hover {background:#f7ebdd;}
+    .track.active {background:#f7e5d5;border-color:#dec39b;}
+    .num {font:700 20px Georgia,serif;color:var(--rose);text-align:center}
+    .track-name {display:block;font-weight:750;font-size:17px;line-height:1.3}
+    .track-artist {display:block;color:#806c6e;font-size:14px;margin-top:4px}
+    .track-icon {font-size:20px;color:var(--wine);text-align:center}
+    .track.active .track-icon {color:#9e6322}
+    footer {font-size:14px;text-align:center;color:#896972;margin-top:24px;line-height:1.5}
+    @media(min-width:660px) {
+      .wrap {padding-top:47px}
+      .player {padding:33px 50px 28px}
+      .record {width:176px;height:176px}
+      .record:before {inset:48px}
+      .list-card {padding:27px 30px}
+    }
+    @media(prefers-reduced-motion:reduce) {
+      .record {animation:none}
+      html {scroll-behavior:auto}
+    }
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <header class="header">
+    <div class="eyebrow">Встреча одноклассников · 60 лет</div>
+    <div class="ornament" aria-hidden="true">✦ ♫ ✦</div>
+    <h1>Песни нашей<br>молодости</h1>
+    <p class="subtitle">Любимые мелодии, которые возвращают нас в юность ♡</p>
+  </header>
+
+  <section class="player" aria-label="Музыкальный проигрыватель">
+    <div class="record" id="record" aria-hidden="true"></div>
+    <div class="now">Сейчас играет</div>
+    <div class="song" id="songTitle">Музыка 80-х</div>
+    <p class="artist" id="artist">Выберите песню или нажмите ▶</p>
+    <audio id="audio" preload="metadata"></audio>
+    <label for="seek" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">Перемотка песни</label>
+    <input class="seekbar" id="seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="Перемотка песни">
+    <div class="times"><span id="elapsed">0:00</span><span id="total">0:00</span></div>
+    <div class="controls">
+      <button class="control" id="previous" type="button" aria-label="Предыдущая песня" title="Предыдущая песня">⏮</button>
+      <button class="control primary" id="toggle" type="button" aria-label="Воспроизвести" title="Воспроизвести">▶</button>
+      <button class="control" id="next" type="button" aria-label="Следующая песня" title="Следующая песня">⏭</button>
+    </div>
+    <p id="status" class="hint" role="status" aria-live="polite">Нажмите ▶, чтобы включить музыку</p>
+  </section>
+
+  <section class="list-card" aria-labelledby="list-title">
+    <h2 id="list-title">Список песен</h2>
+    <p class="list-sub">7 композиций · нажмите на название, чтобы послушать</p>
+    <ol class="tracks" id="trackList"></ol>
+  </section>
+
+  <footer>С любовью к одноклассникам ♡<br>Пусть любимые песни звучат снова!</footer>
+</main>
+<script>
+(function(){
+  "use strict";
+  const songs = [
+    {title:"Хиты 80-х", artist:"Ricchi e Poveri · сборник", file:"audio-1.mp3"},
+    {title:"Дискотека 80-х", artist:"Любимые зарубежные хиты · сборник", file:"audio-2.mp3"},
+    {title:"Amore, amore", artist:"Вольный ветер", file:"audio-3.mp3"},
+    {title:"L’Italiano", artist:"Toto Cutugno · версия 1", file:"audio-4.mp3"},
+    {title:"L’Italiano", artist:"Toto Cutugno · версия 2", file:"audio-5.mp3"},
+    {title:"Malinconia", artist:"Riccardo Fogli", file:"audio-6.mp3"},
+    {title:"Ci sarà", artist:"Al Bano & Romina Power", file:"audio-7.mp3"}
+  ];
+  const audio = document.getElementById("audio");
+  const seek = document.getElementById("seek");
+  const total = document.getElementById("total");
+  const elapsed = document.getElementById("elapsed");
+  const songTitle = document.getElementById("songTitle");
+  const artist = document.getElementById("artist");
+  const toggle = document.getElementById("toggle");
+  const record = document.getElementById("record");
+  const status = document.getElementById("status");
+  const trackList = document.getElementById("trackList");
+  let index = 0;
+
+  function time(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+    seconds = Math.floor(seconds);
+    return Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2,"0");
+  }
+  function renderList() {
+    trackList.replaceChildren();
+    songs.forEach(function(track,i){
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.type="button"; btn.className="track" + (i===index?" active":"");
+      btn.setAttribute("aria-label","Включить: " + track.artist + " — " + track.title);
+      if(i===index) btn.setAttribute("aria-current","true");
+      const num=document.createElement("span");num.className="num";num.textContent=String(i+1).padStart(2,"0");
+      const detail=document.createElement("span");
+      const title=document.createElement("span");title.className="track-name";title.textContent=track.title;
+      const name=document.createElement("span");name.className="track-artist";name.textContent=track.artist;
+      const icon=document.createElement("span");icon.className="track-icon";icon.textContent=(i===index && !audio.paused)?"♫":"▶";
+      detail.append(title,name);btn.append(num,detail,icon);li.append(btn);trackList.append(li);
+      btn.addEventListener("click",function(){
+        if(i===index){ if(audio.paused) play(); else audio.pause(); }
+        else load(i,true);
+      });
+    });
+  }
+  function updatePlay(){
+    const active=!audio.paused;
+    toggle.textContent=active?"Ⅱ":"▶";
+    toggle.setAttribute("aria-label",active?"Пауза":"Воспроизвести");
+    toggle.setAttribute("title",active?"Пауза":"Воспроизвести");
+    record.classList.toggle("playing",active);
+    renderList();
+  }
+  function load(i,shouldPlay){
+    index=(i+songs.length)%songs.length;
+    const track=songs[index];
+    audio.src=track.file;
+    audio.load();
+    songTitle.textContent=track.title;
+    artist.textContent=track.artist;
+    seek.value=0; elapsed.textContent="0:00";total.textContent="0:00";
+    status.textContent="Песня "+(index+1)+" из "+songs.length;
+    renderList();
+    if(shouldPlay)play();else updatePlay();
+  }
+  function play(){
+    const promise=audio.play();
+    if(promise && typeof promise.catch==="function") {
+      promise.catch(function(){ status.textContent="Нажмите ▶ ещё раз для воспроизведения"; updatePlay(); });
+    }
+  }
+  function next(){load(index+1,true)}
+  function previous(){
+    if(audio.currentTime > 3){audio.currentTime=0;return;}
+    load(index-1,true);
+  }
+  document.getElementById("previous").addEventListener("click",previous);
+  document.getElementById("next").addEventListener("click",next);
+  toggle.addEventListener("click",function(){if(audio.paused)play();else audio.pause();});
+  audio.addEventListener("play",function(){status.textContent="Песня "+(index+1)+" из "+songs.length;updatePlay();});
+  audio.addEventListener("pause",updatePlay);
+  audio.addEventListener("ended",next);
+  audio.addEventListener("loadedmetadata",function(){total.textContent=time(audio.duration);});
+  audio.addEventListener("timeupdate",function(){
+    elapsed.textContent=time(audio.currentTime);
+    seek.value=Number.isFinite(audio.duration)&&audio.duration?String(audio.currentTime/audio.duration*100):"0";
+  });
+  audio.addEventListener("error",function(){status.textContent="Не получилось загрузить песню. Попробуйте следующую стрелкой →";updatePlay();});
+  seek.addEventListener("input",function(){
+    if(Number.isFinite(audio.duration)&&audio.duration>0)audio.currentTime=audio.duration*(Number(seek.value)/100);
+  });
+  document.addEventListener("keydown",function(e){
+    if(e.target===seek)return;
+    if(e.key==="ArrowRight")next();
+    if(e.key==="ArrowLeft")previous();
+  });
+  load(0,false);
+})();
+</script>
+</body>
+</html>
