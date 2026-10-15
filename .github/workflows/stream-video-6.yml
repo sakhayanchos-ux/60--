@@ -1,0 +1,69 @@
+name: Prepare video 6 for streaming
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/stream-video-6.yml
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - name: Check out the archive
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Get original 30-minute video from release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release download video-60-let \
+            --pattern '476608818389940123.mp4' \
+            --dir "$RUNNER_TEMP"
+          ls -lh "$RUNNER_TEMP/476608818389940123.mp4"
+          ffprobe -hide_banner -v error -show_entries stream=codec_type,codec_name -of compact "$RUNNER_TEMP/476608818389940123.mp4"
+
+      - name: Prepare browser-streamable HLS segments
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE="$RUNNER_TEMP/476608818389940123.mp4"
+          mkdir -p media6
+          ffmpeg -hide_banner -nostdin -y -i "$SOURCE" \
+            -map 0:v:0 -map 0:a:0? -sn \
+            -c:v copy -c:a copy \
+            -f hls -hls_time 35 -hls_list_size 0 \
+            -hls_playlist_type vod \
+            -hls_segment_type fmp4 \
+            -hls_fmp4_init_filename init.mp4 \
+            -hls_segment_filename 'media6/segment_%03d.m4s' \
+            media6/playlist.m3u8
+          find media6 -type f -printf '%P %s bytes\n' | head -n 14
+          test -s media6/playlist.m3u8
+          test "$(find media6 -name '*.m4s' | wc -l)" -ge 2
+          python3 - <<'PY'
+          import os
+          for dirpath, _, files in os.walk("media6"):
+              for file in files:
+                  p=os.path.join(dirpath,file)
+                  if os.path.getsize(p)>95_000_000:
+                      raise SystemExit("Oversized segment: "+p)
+          print("Segments are small enough for GitHub")
+          PY
+
+      - name: Publish chunks to GitHub Pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add media6/
+          git commit -m "Add playable HLS video 6 segments"
+          git push origin HEAD:main
