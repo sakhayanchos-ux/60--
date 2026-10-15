@@ -1,31 +1,25 @@
-# Медиаархив — встреча одноклассников
+# Медиаархив встречи одноклассников — 60 лет
 
-Этот репозиторий хранит видео и музыку для индивидуальных QR-кодов. У каждого файла своя прямая ссылка, отдельного сайта-галереи нет.
+Хранилище для индивидуальных QR-кодов. При сканировании QR-кода открывается **не сайт-галерея**, а прямой файл видео или музыки.
 
-## Видео
+## Видео — 5 отдельных QR-кодов
+- Видео 1: https://sakhayanchos-ux.github.io/60--/video-1.mp4
+- Видео 2: https://sakhayanchos-ux.github.io/60--/video-2.mp4
+- Видео 3: https://sakhayanchos-ux.github.io/60--/video-3.mp4
+- Видео 4: https://sakhayanchos-ux.github.io/60--/video-4.mp4
+- Видео 5: https://sakhayanchos-ux.github.io/60--/video-5.mp4
 
-Загрузите в корень репозитория файлы с точно такими именами:
+## Музыка — 7 отдельных QR-кодов
+- Музыка 1: https://sakhayanchos-ux.github.io/60--/audio-1.mp3
+- Музыка 2: https://sakhayanchos-ux.github.io/60--/audio-2.mp3
+- Музыка 3: https://sakhayanchos-ux.github.io/60--/audio-3.mp3
+- Музыка 4: https://sakhayanchos-ux.github.io/60--/audio-4.mp3
+- Музыка 5: https://sakhayanchos-ux.github.io/60--/audio-5.mp3
+- Музыка 6: https://sakhayanchos-ux.github.io/60--/audio-6.mp3
+- Музыка 7: https://sakhayanchos-ux.github.io/60--/audio-7.mp3
 
-- `video-1.mp4`
-- `video-2.mp4`
-- `video-3.mp4`
-- `video-4.mp4`
-- `video-5.mp4`
+Все 12 файлов восстановлены из истории первоначальных загрузок 15 октября 2026.
 
-После включения GitHub Pages прямые ссылки будут:
+**Важно:** не переименовывайте бинарные файлы (`.mp4`, `.mp3`) через карандаш **Edit file** на сайте GitHub — так их содержимое уже однажды было заменено пустой строкой. Названия файлов менять не требуется.
 
-- https://sakhayanchos-ux.github.io/60--/video-1.mp4
-- https://sakhayanchos-ux.github.io/60--/video-2.mp4
-- https://sakhayanchos-ux.github.io/60--/video-3.mp4
-- https://sakhayanchos-ux.github.io/60--/video-4.mp4
-- https://sakhayanchos-ux.github.io/60--/video-5.mp4
-
-## Музыка
-
-Ожидаются два музыкальных файла — `audio-1.mp3`, `audio-2.mp3`. Их QR-коды создаются после загрузки аудио.
-
-## Включение прямого просмотра
-
-В репозитории выберите `Settings → Pages → Build and deployment → Deploy from a branch`, ветка `main`, каталог `/(root)`, затем `Save`. После публикации файлы будут открываться по прямым ссылкам. Перед печатью QR-коды следует проверить на телефоне.
-
-**Важно:** файлы публичного репозитория доступны любому, у кого есть ссылка.
+Репозиторий публичный. Доступ к файлам по прямой ссылке не требует аккаунта GitHub.
