@@ -18,6 +18,11 @@ jobs:
         with:
           persist-credentials: true
 
+      - name: Install FFmpeg tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+
       - name: Get original 30-minute video from release
         shell: bash
         env:
